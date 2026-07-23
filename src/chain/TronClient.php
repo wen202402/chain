@@ -14,7 +14,7 @@ class TronClient{
     public  $solidityNode = 'https://api.trongrid.io';
     public  $eventServer = 'https://api.trongrid.io';
     public  $torProxy = 'socks5h://127.0.0.1:9050';
-    public  $timeout = 3000;
+    public  $timeout = 13000;
 
 
     public function init() {
