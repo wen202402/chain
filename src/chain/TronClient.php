@@ -5,7 +5,8 @@ namespace wen202402\chain\chain;
 use IEXBase\TronAPI\Provider\HttpProvider;
 use IEXBase\TronAPI\Tron;
 
-
+//$tron->createAccount()
+//#var_dump($tron->changeAccountName('address', 'NewName'));
 class TronClient{
     private Tron $tron;
     public  $usdtContractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
