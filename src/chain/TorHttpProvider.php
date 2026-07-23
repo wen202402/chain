@@ -22,7 +22,7 @@ class TorHttpProvider implements HttpProviderInterface{
     protected $host;
 
     /** @var int */
-    protected $timeout = 30000;
+    protected $timeout = 80000;
 
     /** @var array */
     protected $headers = [];
@@ -42,17 +42,16 @@ class TorHttpProvider implements HttpProviderInterface{
      * @param ?string $proxy  例如：socks5h://127.0.0.1:9050 或 http://127.0.0.1:8118
      * @throws TronException
      */
-    public function __construct(string $host,int $timeout = 30000, $user = false, $password = false, array $headers = [], string $statusPage = '/', ?string $proxy = "socks5h://127.0.0.1:9050") {
+    public function __construct(string $host,int $timeout = 80000, $user = false, $password = false, array $headers = [], string $statusPage = '/', ?string $proxy = "socks5h://127.0.0.1:9050") {
         if (!Utils::isValidUrl($host)) throw new TronException('Invalid URL provided to HttpProvider');
-        if (is_nan($timeout) || $timeout < 0) throw new TronException('Invalid timeout duration provided');
 
 
         if (!is_array($headers)) throw new TronException('Invalid headers array provided');
-        $this->host = $host;
-        $this->timeout = $timeout;
+       ;
+
         $this->statusPage = $statusPage;
         $this->headers = $headers;
-        $clientConfig = ['base_uri' => $host, 'timeout'  => $timeout,];
+        $clientConfig = ['base_uri' =>  $this->host = $host, 'timeout'  => $this->timeout = $timeout,];
         if ($user !== false) $clientConfig['auth'] = [$user, $password];
         if (!empty($proxy)) $clientConfig['proxy'] = $proxy;
 
@@ -94,15 +93,14 @@ class TorHttpProvider implements HttpProviderInterface{
      * @throws TronException
      */
     public function request($url, array $payload = [], string $method = 'get'): array{
-        $method = strtoupper($method);
 
-        if (!in_array($method, ['GET', 'POST'], true)) throw new TronException('The method is not defined');
+
+        if (!in_array($method = strtoupper($method), ['GET', 'POST'], true)) throw new TronException('The method is not defined');
 
 
         $options = ['headers' => $this->headers, 'body'    => json_encode($payload),];
 
-        $request = new Request($method, $url, $options['headers'], $options['body']);
-        $rawResponse = $this->httpClient->send($request, $options);
+        $rawResponse = $this->httpClient->send($request = new Request($method, $url, $options['headers'], $options['body']), $options);
 
         return $this->decodeBody(
             $rawResponse->getBody(),
@@ -116,15 +114,12 @@ class TorHttpProvider implements HttpProviderInterface{
     protected function decodeBody(StreamInterface $stream, int $status): array{
         $decodedBody = json_decode($stream->getContents(), true);
 
-        if ((string)$stream === 'OK') {
-            $decodedBody = ['status' => 1,];
-        } elseif ($decodedBody === null || !is_array($decodedBody)) {
-            $decodedBody = [];
-        }
+        if ((string)$stream === 'OK') $decodedBody = ['status' => 1,];
+         elseif ($decodedBody === null || !is_array($decodedBody)) $decodedBody = [];
 
-        if ($status === 404) {
-            throw new NotFoundException('Page not found');
-        }
+
+        if ($status === 404) throw new NotFoundException('Page not found');
+
 
         return $decodedBody;
     }
