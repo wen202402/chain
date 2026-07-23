@@ -18,18 +18,28 @@ class TronClient{
         $this->tron = new Tron($full, $solidity, $event);
     }
 
-    /**
-     * 设置发送方地址和私钥
-     */
+
+
+
+
+
+
+
+
+
+                                                      //* 设置发送方地址和私钥
     public function setCredentials(string $fromAddress, string $privateKey): void{
         $this->tron->setAddress($fromAddress);
         $this->tron->setPrivateKey($privateKey);
     }
 
-                                                            //获取 TRX 余额
-    public function getTrxBalance(): mixed{
 
-        return $this->tron->getBalance(null, true);    // null, true 保持你原来的参数
+
+
+
+    public function getTrxBalance(string $address = null, bool $fromTron = true): mixed{
+
+        return $this->tron->getBalance($address, $fromTron);
     }
 
                                                                                                               //发送 TRX
