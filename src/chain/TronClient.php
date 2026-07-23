@@ -10,15 +10,19 @@ use IEXBase\TronAPI\Tron;
 class TronClient{
     private Tron $tron;
     public  $usdtContractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+    public  $fullNode = 'https://api.trongrid.io';
+    public  $solidityNode = 'https://api.trongrid.io';
+    public  $eventServer = 'https://api.trongrid.io';
+    public  $torProxy = 'socks5h://127.0.0.1:9050';
+    public  $timeout = 3000;
 
-    public function __construct(string $fullNode = 'https://api.trongrid.io', string $solidityNode = 'https://api.trongrid.io', string $eventServer = 'https://api.trongrid.io', $timeout=3000,?string $torProxy = 'socks5h://127.0.0.1:9050') {
-        $full = new TorHttpProvider($fullNode, $timeout, false, false, [], '/', $torProxy);
-        $solidity = new TorHttpProvider($solidityNode, $timeout, false, false, [], '/', $torProxy);
-        $event = new TorHttpProvider($eventServer, $timeout, false, false, [], '/', $torProxy);
+
+    public function init($timeout=3000,?string $torProxy = 'socks5h://127.0.0.1:9050') {
+        $full = new TorHttpProvider($this->fullNode, $timeout, false, false, [], '/', $this->torProxy);
+        $solidity = new TorHttpProvider($this->solidityNode, $timeout, false, false, [], '/', $this->torProxy);
+        $event = new TorHttpProvider($this->eventServer, $timeout, false, false, [], '/', $this->torProxy);
         $this->tron = new Tron($full, $solidity, $event);
     }
-
-
 
 
 
