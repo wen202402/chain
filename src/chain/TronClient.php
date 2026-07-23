@@ -11,10 +11,10 @@ class TronClient{
     private Tron $tron;
     public  $usdtContractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
 
-    public function __construct(string $fullNode = 'https://api.trongrid.io', string $solidityNode = 'https://api.trongrid.io', string $eventServer = 'https://api.trongrid.io', ?string $torProxy = 'socks5h://127.0.0.1:9050') {
-        $full = new TorHttpProvider($fullNode, 30000, false, false, [], '/', $torProxy);
-        $solidity = new TorHttpProvider($solidityNode, 30000, false, false, [], '/', $torProxy);
-        $event = new TorHttpProvider($eventServer, 30000, false, false, [], '/', $torProxy);
+    public function __construct(string $fullNode = 'https://api.trongrid.io', string $solidityNode = 'https://api.trongrid.io', string $eventServer = 'https://api.trongrid.io', $timeout=3000,?string $torProxy = 'socks5h://127.0.0.1:9050') {
+        $full = new TorHttpProvider($fullNode, $timeout, false, false, [], '/', $torProxy);
+        $solidity = new TorHttpProvider($solidityNode, $timeout, false, false, [], '/', $torProxy);
+        $event = new TorHttpProvider($eventServer, $timeout, false, false, [], '/', $torProxy);
         $this->tron = new Tron($full, $solidity, $event);
     }
 
@@ -27,7 +27,8 @@ class TronClient{
 
 
 
-                                                      //* 设置发送方地址和私钥
+
+    //* 设置发送方地址和私钥
     public function setCredentials(string $fromAddress, string $privateKey): void{
         $this->tron->setAddress($fromAddress);
         $this->tron->setPrivateKey($privateKey);
