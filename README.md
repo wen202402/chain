@@ -1,3 +1,4 @@
 ```shell
 composer require wen202402/chain --ignore-platform-reqs
-```# chain
+composer update --ignore-platform-reqs
+```
