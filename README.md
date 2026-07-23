@@ -1,3 +1,3 @@
-git config user.email wen202401@proton.me
-git config user.name wen202401# common
-# chain
+```shell
+composer require wen202402/chain --ignore-platform-reqs
+```
