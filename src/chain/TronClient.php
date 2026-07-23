@@ -2,7 +2,7 @@
 
 namespace wen202402\chain\chain;
 
-use IEXBase\TronAPI\Provider\HttpProvider;
+
 use IEXBase\TronAPI\Tron;
 
 //$tron->createAccount()
@@ -11,11 +11,10 @@ class TronClient{
     private Tron $tron;
     public  $usdtContractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
 
-    public function __construct(string $fullNode = 'https://api.trongrid.io', string $solidityNode = 'https://api.trongrid.io', string $eventServer = 'https://api.trongrid.io') {
-        $full = new HttpProvider($fullNode);
-        $solidity = new HttpProvider($solidityNode);
-        $event = new HttpProvider($eventServer);
-
+    public function __construct(string $fullNode = 'https://api.trongrid.io', string $solidityNode = 'https://api.trongrid.io', string $eventServer = 'https://api.trongrid.io', ?string $torProxy = 'socks5h://127.0.0.1:9050') {
+        $full = new TorHttpProvider($fullNode, 30000, false, false, [], '/', $torProxy);
+        $solidity = new TorHttpProvider($solidityNode, 30000, false, false, [], '/', $torProxy);
+        $event = new TorHttpProvider($eventServer, 30000, false, false, [], '/', $torProxy);
         $this->tron = new Tron($full, $solidity, $event);
     }
 
