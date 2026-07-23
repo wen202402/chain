@@ -40,6 +40,7 @@ $nliang   = getenv('nliang');
 
 $usdtAmount = 1.5;
 $tron=new TronClient();
+$tron->init();
 $tron->setCredentials($fromAddress,$privateKey);
 
 var_dump($tron->getTrxBalance());

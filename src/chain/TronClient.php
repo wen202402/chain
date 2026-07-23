@@ -18,9 +18,9 @@ class TronClient{
 
 
     public function init($timeout=3000,?string $torProxy = 'socks5h://127.0.0.1:9050') {
-        $full = new TorHttpProvider($this->fullNode, $timeout, false, false, [], '/', $this->torProxy);
-        $solidity = new TorHttpProvider($this->solidityNode, $timeout, false, false, [], '/', $this->torProxy);
-        $event = new TorHttpProvider($this->eventServer, $timeout, false, false, [], '/', $this->torProxy);
+        $full = new TorHttpProvider($this->fullNode, $this->timeout, false, false, [], '/', $this->torProxy);
+        $solidity = new TorHttpProvider($this->solidityNode, $this->timeout, false, false, [], '/', $this->torProxy);
+        $event = new TorHttpProvider($this->eventServer, $this->timeout, false, false, [], '/', $this->torProxy);
         $this->tron = new Tron($full, $solidity, $event);
     }
 
