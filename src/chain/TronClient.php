@@ -4,7 +4,8 @@ namespace wen202402\chain\chain;
 
 
 use IEXBase\TronAPI\Tron;
-
+use Elliptic\EdDSA;
+use StephenHill\Base58;
 //$tron->createAccount()
 //#var_dump($tron->changeAccountName('address', 'NewName'));
 class TronClient{
@@ -39,7 +40,20 @@ class TronClient{
     }
 
 
+    public function setCredentialsMnemonic(string $fromAddress, string $mnemonic): void{
+        $this->tron->setAddress($fromAddress);
+        $this->tron->setPrivateKey($this->getPrivateKeyFromMnemonic($mnemonic));
+    }
 
+
+    //     $mnemonic = "scheme spot photo card baby mountain device kick cradle pact join borrow";
+    public function getPrivateKeyFromMnemonic(string $mnemonic): string{
+        $kp = ($ec =  new EdDSA('ed25519'))->keyFromSecret($secret = hash_pbkdf2('sha512', $mnemonic, 'mnemonic', 2048));
+        assert($secret == $kp->getSecret('hex'));
+     //   echo "Secret:  " . $kp->getSecret('hex') . PHP_EOL;
+        return    $kp->priv()->toString('hex');      // echo "Public:  " . $kp->getPublic('hex') .  PHP_EOL;
+
+    }
 
 
     public function getTrxBalance(string $address = null, bool $fromTron = true): mixed{

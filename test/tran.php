@@ -32,7 +32,7 @@ require $_libs.'vendor/autoload.php';
 $application = new yii\console\Application($config);
 
 $application->init();
-
+\wen202402\chain\chain\EnvHelper::load(  '/home/ubuntux/Desktop/all/work/.env');
 $fromAddress = getenv('fromAddress');;
 $privateKey  = getenv('privateKey');
 $toAddress   = getenv('toAddress');;
