@@ -39,7 +39,7 @@ class TronClient{
         $this->tron->setPrivateKey($privateKey);
     }
 
-
+                                                                                                                    //     $mnemonic = "scheme spot photo card baby mountain device kick cradle pact join borrow";
     public function setCredentialsMnemonic(string $fromAddress, string $mnemonic): void{
         $this->tron->setAddress($fromAddress);
         $this->tron->setPrivateKey($this->getPrivateKeyFromMnemonic($mnemonic));
@@ -48,7 +48,7 @@ class TronClient{
 
 
 
-    //     $mnemonic = "scheme spot photo card baby mountain device kick cradle pact join borrow";
+                                                                                                                      //     $mnemonic = "scheme spot photo card baby mountain device kick cradle pact join borrow";
     public function getPrivateKeyFromMnemonic(string $mnemonic): string{
         $kp = ($ec =  new EdDSA('ed25519'))->keyFromSecret(hash_pbkdf2('sha512', $mnemonic, 'mnemonic', 2048));
         return    $kp->priv()->toString('hex');
